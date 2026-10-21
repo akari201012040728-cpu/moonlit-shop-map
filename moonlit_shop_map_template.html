@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moonlit SHOP MAP｜なにわ男子 販売情報まとめ</title>
+<style>
+:root{--night:#17132d;--panel:#241d42;--purple:#9d82df;--lav:#e8ddff;--ink:#f7f3ff;--muted:#c7bddf;--line:#51436f;--pink:#f4bde3}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#35255d 0,#17132d 48%,#100e20 100%);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;line-height:1.65}
+a{color:#e6d8ff}header{padding:42px 18px 30px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#31234fbb,transparent)}
+.eyebrow{letter-spacing:.18em;color:var(--pink);font-size:.8rem}.moon{font-size:2.3rem}.wrap{max-width:1050px;margin:auto;padding:22px 16px 55px}
+h1{font-size:clamp(1.8rem,5vw,3rem);line-height:1.2;margin:8px 0}h2{font-size:1.25rem;margin:0 0 12px}p{margin:.4rem 0 1rem}.muted{color:var(--muted);font-size:.92rem}
+.panel{background:#211a3ce8;border:1px solid var(--line);border-radius:18px;padding:18px;margin:16px 0;box-shadow:0 12px 35px #09061533}
+.notice{border-left:4px solid var(--pink);padding:10px 13px;background:#342243;border-radius:8px;font-size:.92rem}
+.controls{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin:12px 0}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#17132d;color:var(--ink);font:inherit}
+button,.button{display:inline-block;border:0;border-radius:999px;padding:11px 17px;background:var(--purple);color:#17132d;font-weight:700;text-decoration:none;cursor:pointer}
+button.secondary{background:#382c59;color:var(--ink);border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--lav);font-weight:700}
+.pill{display:inline-block;border:1px solid #8069b3;border-radius:999px;padding:2px 9px;font-size:.78rem;color:var(--lav);white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.store{background:#1a1530;border:1px solid var(--line);border-radius:14px;padding:14px}.store h3{margin:0 0 4px;font-size:1rem}
+.steps{padding-left:1.3rem}.steps li{margin:.5rem 0}.footer{text-align:center;color:var(--muted);font-size:.82rem;padding:24px 12px}
+@media(max-width:700px){.controls,.grid{grid-template-columns:1fr}table{display:block;overflow-x:auto;white-space:normal}header{padding-top:30px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="moon">☾ ✦ ☽</div>
+  <div class="eyebrow">NANIWA DANSHI · FAN-MADE INFORMATION</div>
+  <h1>Moonlit SHOP MAP</h1>
+  <p>なにわ男子「Moonlit」販売・購入特典情報まとめ</p>
+  <span class="pill">全国版</span> <span class="pill">CD在庫</span> <span class="pill">購入特典</span>
+</header>
+<main class="wrap">
+  <section class="panel">
+    <h2>🌙 このサイトについて</h2>
+    <p>「Moonlit」のCD販売店舗、購入特典、ファンから寄せられた目撃情報をまとめています。</p>
+    <div class="notice">在庫は変動します。掲載内容は購入を保証するものではありません。来店前に店舗へ確認してください。投稿情報は公式発表と区別して掲載します。</div>
+    <p class="muted">最終更新：2026年10月21日（公開前に実際の更新日へ変更）</p>
+    <p><a href="https://web.storm-labels.co.jp/s/st/discography/LCCA-6307" target="_blank" rel="noopener">公式商品情報</a> ・ <a href="https://web.storm-labels.co.jp/s/st/news/detail/14597" target="_blank" rel="noopener">公式購入特典情報</a></p>
+  </section>
+
+  <section class="panel">
+    <h2>🔎 店舗情報を探す</h2>
+    <div class="controls">
+      <input id="search" placeholder="店舗名・都道府県で検索" aria-label="店舗名・都道府県で検索">
+      <select id="region" aria-label="地域">
+        <option value="">すべての地域</option><option>北海道・東北</option><option>関東</option><option>中部</option><option>近畿</option><option>中国・四国</option><option>九州・沖縄</option><option>オンライン</option>
+      </select>
+      <select id="status" aria-label="在庫状況">
+        <option value="">すべての状況</option><option>在庫あり（投稿情報）</option><option>売り切れ（投稿情報）</option><option>未確認</option><option>オンライン</option>
+      </select>
+    </div>
+    <p class="muted">以下は入力例です。未確認の情報を「在庫あり」として掲載しないでください。</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>地域</th><th>店舗・ショップ</th><th>CD在庫</th><th>特典メモ</th><th>確認日時</th></tr></thead>
+        <tbody id="storeRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>🎁 購入特典・対象ショップの確認</h2>
+    <p>特典の対象商品・絵柄・配布条件は公式案内を優先して確認してください。店舗別特典は先着配布で、終了している場合があります。</p>
+    <div class="grid">
+      <div class="store"><h3>🛍️ TOWER RECORDS</h3><p class="muted">公式特典案内に記載あり。店舗・オンラインの対象条件を確認。</p></div>
+      <div class="store"><h3>🛍️ HMV</h3><p class="muted">公式特典案内に記載あり。一部対象外の可能性あり。</p></div>
+      <div class="store"><h3>🛍️ TSUTAYA RECORDS</h3><p class="muted">一部店舗除く。購入する店舗で要確認。</p></div>
+      <div class="store"><h3>🛍️ 楽天ブックス</h3><p class="muted">オンライン対象条件・特典残数を要確認。</p></div>
+      <div class="store"><h3>🛍️ Amazon / セブンネット</h3><p class="muted">商品ページの特典表記と販売元を確認。</p></div>
+      <div class="store"><h3>🛍️ WonderGOO / 新星堂</h3><p class="muted">一部店舗除く。店頭在庫は店舗ごとに確認。</p></div>
+      <div class="store"><h3>🛍️ 山野楽器</h3><p class="muted">対象商品・特典の有無を注文前に確認。</p></div>
+      <div class="store"><h3>🛍️ Neowing / CDJapan ほか</h3><p class="muted">公式特典案内と各商品ページを照合。</p></div>
+    </div>
+    <p class="muted">この一覧は公式特典案内に名前があるショップ等の確認用ひな形です。現在の在庫・特典残数を示すものではありません。</p>
+  </section>
+
+  <section class="panel">
+    <h2>📮 ファンのみんなから情報募集中！</h2>
+    <p>店頭で見かけたCDや特典の情報を教えてください。送信フォームを公開したら、下のボタンをGoogleフォームのURLに差し替えてね。</p>
+    <p><a class="button" id="formLink" href="#投稿フォームURLを設定" target="_blank" rel="noopener">目撃情報を投稿する ✦</a></p>
+    <p class="muted">※このサンプルでは投稿は送信されません。Googleフォームを作成し、上のリンク先を設定してください。</p>
+  </section>
+
+  <section class="panel">
+    <h2>📝 投稿フォームに入れる質問</h2>
+    <ol class="steps">
+      <li>店舗名（必須）</li><li>都道府県・地域（必須）</li><li>確認日時（必須）</li>
+      <li>CD在庫：在庫あり／売り切れ／未確認／オンライン</li>
+      <li>確認した形態：初回限定盤1／初回限定盤2／通常盤／その他</li>
+      <li>購入特典：特典名／配布あり／終了／未確認</li>
+      <li>情報の種類：自分で確認／店舗へ電話確認／SNSで見た（未確認）</li>
+      <li>補足（任意・個人情報は書かない）</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2>🛠️ 更新ルール</h2>
+    <ul>
+      <li>在庫情報には必ず確認日時を付ける。</li>
+      <li>「公式発表」「店舗へ確認」「ファン投稿」を分けて表示する。</li>
+      <li>確認から24時間以上経った店頭在庫は「要再確認」にする運用がおすすめ。</li>
+      <li>住所・電話番号などは店舗公式ページへリンクし、個人の連絡先は掲載しない。</li>
+      <li>写真を載せるときは自分で撮影したものか、掲載許可を得たものを使う。</li>
+    </ul>
+  </section>
+  <footer class="footer">Moonlit SHOP MAP · ファン有志による非公式情報まとめ<br>公式運営・販売店とは関係ありません。公式情報は各リンク先でご確認ください。</footer>
+</main>
+<script>
+const stores = [
+ {region:"オンライン",name:"TOWER RECORDS オンライン",status:"未確認",bonus:"特典対象ショップ（残数は要確認）",time:"未確認"},
+ {region:"オンライン",name:"HMV&BOOKS online",status:"未確認",bonus:"特典対象ショップ（残数は要確認）",time:"未確認"},
+ {region:"オンライン",name:"楽天ブックス",status:"未確認",bonus:"特典対象ショップ（残数は要確認）",time:"未確認"},
+ {region:"オンライン",name:"Amazon",status:"未確認",bonus:"商品ページの特典表記を確認",time:"未確認"},
+ {region:"オンライン",name:"セブンネットショッピング",status:"未確認",bonus:"特典対象ショップ（残数は要確認）",time:"未確認"},
+ {region:"オンライン",name:"Neowing / CDJapan",status:"未確認",bonus:"特典対象ショップ（残数は要確認）",time:"未確認"},
+ {region:"北海道・東北",name:"地域のCDショップ（店舗名を追記）",status:"未確認",bonus:"店舗へ要確認",time:"未確認"},
+ {region:"関東",name:"TOWER RECORDS（店舗名を追記）",status:"未確認",bonus:"店舗へ要確認",time:"未確認"},
+ {region:"中部",name:"新星堂 / WonderGOO（店舗名を追記）",status:"未確認",bonus:"一部店舗除く・要確認",time:"未確認"},
+ {region:"近畿",name:"TSUTAYA RECORDS（店舗名を追記）",status:"未確認",bonus:"一部店舗除く・要確認",time:"未確認"},
+ {region:"中国・四国",name:"地域のCDショップ（店舗名を追記）",status:"未確認",bonus:"店舗へ要確認",time:"未確認"},
+ {region:"九州・沖縄",name:"地域のCDショップ（店舗名を追記）",status:"未確認",bonus:"店舗へ要確認",time:"未確認"}
+];
+const tbody=document.getElementById("storeRows");
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const r=document.getElementById("region").value,s=document.getElementById("status").value;
+ const filtered=stores.filter(x=>(!q||(x.name+x.region+x.bonus).toLowerCase().includes(q))&&(!r||x.region===r)&&(!s||x.status===s));
+ tbody.innerHTML=filtered.map(x=>`<tr><td>${x.region}</td><td>${x.name}</td><td><span class="pill">${x.status}</span></td><td>${x.bonus}</td><td>${x.time}</td></tr>`).join("")||'<tr><td colspan="5">該当する店舗がありません。</td></tr>';
+}
+["search","region","status"].forEach(id=>document.getElementById(id).addEventListener("input",render));render();
+</script>
+</body></html>
